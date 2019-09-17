@@ -1,0 +1,38 @@
+{
+  "name": "tehekone/laravel-resources",
+  "description": "Laravel Package",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "filter"
+  ],
+  "support": {
+    "issues": "https://github.com/tehekone/laravel_resources/issues",
+    "source": "https://github.com/tehekone/laravel_resources"
+  },
+  "authors": [
+    {
+      "name": "Alexandr Tyurin",
+      "email": "tehekone@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "illuminate/support": "5.5.*||5.6.*||5.7.*||5.8.*",
+    "illuminate/http": "5.5.*||5.6.*||5.7.*||5.8.*",
+    "illuminate/database": "5.5.*||5.6.*||5.7.*||5.8.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "TehekOne\\Laravel\\Resources\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "TehekOne\\Laravel\\Resources\\ResourceServiceProvider"
+      ]
+    }
+  }
+}

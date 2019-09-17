@@ -5,9 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateFiltersTable
+ * Class CreateResourceFilterPresetsTable
  */
-class CreateFiltersTable extends Migration
+class CreateResourceFilterPresetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,9 +16,10 @@ class CreateFiltersTable extends Migration
      */
     public function up()
     {
-        Schema::create('filter_presets', static function (Blueprint $table) {
+        Schema::create('resource_filter_presets', static function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('resource');
+            $table->string('title');
+            $table->string('resource')->index();
             $table->json('data');
         });
     }
@@ -30,6 +31,6 @@ class CreateFiltersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('filter_presets');
+        Schema::dropIfExists('resource_filter_presets');
     }
 }

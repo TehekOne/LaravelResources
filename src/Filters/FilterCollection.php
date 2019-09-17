@@ -2,10 +2,10 @@
 
 namespace TehekOne\Laravel\Resources\Filters;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use Throwable;
 
 /**
  * Class FilterCollection
@@ -17,23 +17,15 @@ class FilterCollection
     /**
      * @var array
      */
-    protected $items;
-
-    /**
-     * @var Request
-     */
-    protected $request;
+    public $items;
 
     /**
      * FilterCollection constructor.
      *
-     * @param Request $request
      * @param array $filters
      */
-    public function __construct(Request $request, array $filters)
+    public function __construct(array $filters)
     {
-        $this->request = $request;
-
         $this->items = collect($filters)->mapWithKeys(static function ($item) {
             $name = Str::snake((new ReflectionClass($item))->getShortName());
 
@@ -42,12 +34,31 @@ class FilterCollection
     }
 
     /**
-     * @return string
-     * @throws Throwable
+     * Get filter by name.
+     *
+     * @param $name
+     *
+     * @return mixed
+     * @throws Exception
      */
-    public function __toString()
+    public function get($name)
     {
-        return $this->render();
+        if (!$this->has($name)) {
+            throw new Exception("The filter `{$name}` is not registered in this resource.");
+        }
+
+        return $this->items[$name];
+    }
+
+    /**
+     * Append filter to set.
+     *
+     * @param $key
+     * @param $value
+     */
+    public function set($key, $value)
+    {
+        $this->items[$key] = $value;
     }
 
     /**
@@ -63,18 +74,6 @@ class FilterCollection
     }
 
     /**
-     * Calculate count of the selected filters.
-     *
-     * @return int
-     */
-    public function selected()
-    {
-        return collect($this->request->all())->filter(function ($value, $key) {
-            return $this->has($key) && $value;
-        })->count();
-    }
-
-    /**
      * Get count of registered filters.
      *
      * return int
@@ -85,21 +84,16 @@ class FilterCollection
     }
 
     /**
-     * Render filters into variable.
+     * Calculate count of the selected filters.
      *
-     * @return string
-     * @throws Throwable
+     * @param Request $request
+     *
+     * @return int
      */
-    public function render()
+    public function selected(Request $request)
     {
-        $filters = '';
-
-        if ($this->count()) {
-            foreach ($this->items as $filter) {
-                $filters .= new $filter;
-            }
-        }
-
-        return $filters;
+        return collect($request->all())->filter(function ($value, $key) {
+            return $this->has($key) && $value;
+        });
     }
 }

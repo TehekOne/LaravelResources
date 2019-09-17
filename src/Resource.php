@@ -59,11 +59,10 @@ abstract class Resource
     {
         collect($filters)->each(static function ($filter) use ($query, $request) {
             $name = Str::snake((new ReflectionClass($filter))->getShortName());
-            /** @var Filter $filter */
-            $filter = new $filter;
 
             /** @var Request $request */
             if ($value = $request->input($name)) {
+                /** @var Filter $filter */
                 $filter->apply($query, $value);
             }
         });
@@ -89,6 +88,6 @@ abstract class Resource
     {
         $this->request = request();
 
-        $this->filters = new FilterCollection($this->request, $this->filters());
+        $this->filters = new FilterCollection($this->filters());
     }
 }

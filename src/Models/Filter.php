@@ -19,7 +19,7 @@ class Filter extends Model
     /**
      * @var string
      */
-    protected $table = 'filter_presets';
+    protected $table = 'resource_filter_presets';
 
     /**
      * @var array

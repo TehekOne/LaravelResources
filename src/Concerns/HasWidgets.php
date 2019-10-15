@@ -17,7 +17,7 @@ trait HasWidgets
      * @param Request $request
      * @return array
      */
-    public function widgets(Request $request = null): array
+    public function widgets(Request $request)
     {
         return [
             // ...

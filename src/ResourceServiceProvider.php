@@ -3,6 +3,7 @@
 namespace TehekOne\Laravel\Resources;
 
 use Illuminate\Support\ServiceProvider;
+use TehekOne\Laravel\Resources\Commands\MakeFilterCommand;
 
 /**
  * Class ResourceServiceProvider
@@ -25,6 +26,10 @@ class ResourceServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../resources/views' => base_path('resources/views/vendor/filters'),
             ], 'filters-views');
+
+            $this->commands([
+                MakeFilterCommand::class,
+            ]);
         }
     }
 }

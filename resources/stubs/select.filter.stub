@@ -1,0 +1,42 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use TehekOne\Laravel\Resources\Filters\Templates\SelectFilter;
+
+/**
+ * Class DummyClass
+ *
+ * @package DummyNamespace
+ */
+class DummyClass extends SelectFilter
+{
+    /**
+     * Apply the filter to the given query.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param mixed $value
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function apply(Builder $query, $value)
+    {
+        //
+    }
+
+    /**
+     * Get the filter's available options.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return array
+     */
+    public function options(Request $request)
+    {
+        return [
+            //
+        ];
+    }
+}

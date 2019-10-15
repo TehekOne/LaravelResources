@@ -24,7 +24,7 @@ trait HasFilters
      *
      * @return array
      */
-    public function filters(Request $request = null): array
+    public function filters(Request $request)
     {
         return [
             // ...

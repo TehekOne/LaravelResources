@@ -2,10 +2,8 @@
 
 namespace TehekOne\Laravel\Resources\Filters;
 
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use ReflectionClass;
+use InvalidArgumentException;
 
 /**
  * Class FilterCollection
@@ -26,10 +24,9 @@ class FilterCollection
      */
     public function __construct(array $filters)
     {
-        $this->items = collect($filters)->mapWithKeys(static function ($item) {
-            $name = Str::snake((new ReflectionClass($item))->getShortName());
-
-            return [$name => $item];
+        $this->items = collect($filters)->mapWithKeys(static function ($filter) {
+            /** @var Filter $filter */
+            return [$filter->key() => $filter];
         })->toArray();
     }
 
@@ -39,12 +36,11 @@ class FilterCollection
      * @param $name
      *
      * @return mixed
-     * @throws Exception
      */
     public function get($name)
     {
         if (!$this->has($name)) {
-            throw new Exception("The filter `{$name}` is not registered in this resource.");
+            throw new InvalidArgumentException("The filter `{$name}` is not registered in this resource.");
         }
 
         return $this->items[$name];
@@ -55,10 +51,18 @@ class FilterCollection
      *
      * @param $key
      * @param $value
+     *
+     * @return FilterCollection
      */
     public function set($key, $value)
     {
+        if (!$value instanceof Filter) {
+            throw new InvalidArgumentException("{$key} is not a valid filter.");
+        }
+
         $this->items[$key] = $value;
+
+        return $this;
     }
 
     /**

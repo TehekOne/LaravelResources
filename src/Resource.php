@@ -4,8 +4,6 @@ namespace TehekOne\Laravel\Resources;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use ReflectionClass;
 use TehekOne\Laravel\Resources\Filters\Filter;
 use TehekOne\Laravel\Resources\Filters\FilterCollection;
 
@@ -58,11 +56,11 @@ abstract class Resource
     public static function applyFilters(Request $request, array $filters, Builder $query): Builder
     {
         collect($filters)->each(static function ($filter) use ($query, $request) {
-            $name = Str::snake((new ReflectionClass($filter))->getShortName());
-
-            /** @var Request $request */
-            if ($value = $request->input($name)) {
-                /** @var Filter $filter */
+            /**
+             * @var Request $request
+             * @var Filter $filter
+             */
+            if ($value = $request->input($filter->key())) {
                 $filter->apply($query, $value);
             }
         });
@@ -88,6 +86,6 @@ abstract class Resource
     {
         $this->request = request();
 
-        $this->filters = new FilterCollection($this->filters());
+        $this->filters = new FilterCollection($this->filters($this->request));
     }
 }

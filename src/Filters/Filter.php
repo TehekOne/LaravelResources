@@ -2,7 +2,6 @@
 
 namespace TehekOne\Laravel\Resources\Filters;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -19,7 +18,7 @@ use Throwable;
  *
  * @package TehekOne\Laravel\Resources\Filters
  */
-abstract class Filter implements Renderable
+abstract class Filter
 {
     /**
      * The displayable name of the filter.
@@ -60,9 +59,7 @@ abstract class Filter implements Renderable
      */
     public function __toString()
     {
-        return view($this->template, [
-            'filter' => $this,
-        ])->render();
+        return $this->render()->render();
     }
 
     /**

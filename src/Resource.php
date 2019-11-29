@@ -31,10 +31,15 @@ abstract class Resource
     protected $request;
 
     /**
+     * @var
+     */
+    protected $data;
+
+    /**
      * Apply the filters to the given query.
      *
      * @param Request $request
-     * @return mixed
+     * @return Builder
      */
     public static function apply(Request $request)
     {
@@ -87,5 +92,15 @@ abstract class Resource
         $this->request = request();
 
         $this->filters = new FilterCollection($this->filters($this->request));
+    }
+
+    /**
+     * Return class name
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return static::class;
     }
 }

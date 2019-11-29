@@ -21,7 +21,7 @@ trait HasPresets
     {
         return Filter::where('resource', static::class)->orderBy('title')->get()
             ->transform(function ($item) {
-                $item->link = $this->request->fullUrlWithQuery($item->data);
+                $item->link = $this->request->fullUrlWithQuery(json_decode($item->data, true));
 
                 return $item;
             })

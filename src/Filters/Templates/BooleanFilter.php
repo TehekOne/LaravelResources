@@ -8,7 +8,7 @@ use TehekOne\Laravel\Resources\Filters\Filter;
 /**
  * Class BooleanFilter
  *
- * @package App\Filters\Templates
+ * @package TehekOne\Laravel\Resources\Filters\Templates
  */
 abstract class BooleanFilter extends Filter
 {

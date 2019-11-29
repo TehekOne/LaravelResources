@@ -8,7 +8,7 @@ use TehekOne\Laravel\Resources\Filters\Filter;
 /**
  * Class SelectFilter
  *
- * @package App\Filters\Templates
+ * @package TehekOne\Laravel\Resources\Filters\Templates
  */
 abstract class SelectFilter extends Filter
 {

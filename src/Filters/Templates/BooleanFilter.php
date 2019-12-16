@@ -20,11 +20,11 @@ abstract class BooleanFilter extends Filter
     /**
      * Get the filter's available options.
      *
-     * @param Request $request
+     * @param Request|null $request
      *
      * @return array
      */
-    public function options(Request $request)
+    public function options(Request $request = null)
     {
         return [
             //

@@ -74,6 +74,16 @@ abstract class Filter
     }
 
     /**
+     * Get the template of the filter.
+     *
+     * @return string
+     */
+    public function template()
+    {
+        return $this->template;
+    }
+
+    /**
      * Get the description of the filter.
      *
      * @return string
@@ -82,6 +92,20 @@ abstract class Filter
     {
         return $this->description;
     }
+
+//    /**
+//     * Get the filter's available options.
+//     *
+//     * @param Request|null $request
+//     *
+//     * @return array
+//     */
+//    public function options(Request $request = null)
+//    {
+//        return [
+//            //
+//        ];
+//    }
 
     /**
      * Get the key for the filter.

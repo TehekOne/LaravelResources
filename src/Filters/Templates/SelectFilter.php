@@ -18,13 +18,28 @@ abstract class SelectFilter extends Filter
     protected $template = 'filters::filter_select';
 
     /**
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * Get the filter's fetch url.
+     *
+     * @return string
+     */
+    public function url()
+    {
+        return $this->url;
+    }
+
+    /**
      * Get the filter's available options.
      *
-     * @param Request $request
+     * @param Request|null $request
      *
      * @return array
      */
-    public function options(Request $request)
+    public function options(Request $request = null)
     {
         return [
             //

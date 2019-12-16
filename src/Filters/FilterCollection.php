@@ -2,7 +2,10 @@
 
 namespace TehekOne\Laravel\Resources\Filters;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 /**
@@ -10,7 +13,7 @@ use InvalidArgumentException;
  *
  * @package App\Filters
  */
-class FilterCollection
+class FilterCollection implements Arrayable, Jsonable
 {
     /**
      * @var array
@@ -92,12 +95,48 @@ class FilterCollection
      *
      * @param Request $request
      *
-     * @return int
+     * @return Collection
      */
     public function selected(Request $request)
     {
         return collect($request->all())->filter(function ($value, $key) {
             return $this->has($key) && $value;
         });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray()
+    {
+        return collect($this->items)
+            ->map(static function ($item) {
+                /** @var Filter $item */
+                $response = [
+                    'name' => $item->name(),
+                    'description' => $item->description(),
+                    'template' => $item->template(),
+                    'key' => $item->key(),
+                ];
+
+                if (method_exists($item, 'options') && ($options = $item->options())) {
+                    $response['options'] = $options;
+                }
+
+                if (method_exists($item, 'url') && ($url = $item->url())) {
+                    $response['url'] = $url;
+                }
+
+                return $response;
+            })
+            ->toArray();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray());
     }
 }

@@ -5,9 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class UpddateResourceFilterPresetsTable
+ * Class UpdateResourceFilterPresetsTable
  */
-class UpddateResourceFilterPresetsTable extends Migration
+class UpdateResourceFilterPresetsTable extends Migration
 {
     /**
      * Run the migrations.

@@ -3,7 +3,7 @@
 namespace TehekOne\Laravel\Resources\Concerns;
 
 use Illuminate\Support\Collection;
-use TehekOne\Laravel\Resources\Filters\FilterCollection;
+use RuntimeException;
 use TehekOne\Laravel\Resources\Models\Preset;
 
 /**
@@ -14,15 +14,25 @@ use TehekOne\Laravel\Resources\Models\Preset;
 trait HasPresets
 {
     /**
-     * Get presets for the resource.
+     * Get presets for the resource. For a specific user if specified.
+     *
+     * @param null $userId
      *
      * @return array
      */
-    public function presets()
+    public function presets($userId = null): array
     {
-        return Preset::where('resource', static::class)->orderBy('title')->get()
-            ->transform(function ($item) {
-                $item->query = http_build_query(json_decode($item->data, true));
+        $query = Preset::query()
+            ->where('resource', static::class)
+            ->orderBy('title');
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        return $query->get()
+            ->transform(static function ($item) {
+                $item->query = http_build_query($item->data, true);
 
                 return $item;
             })
@@ -38,10 +48,13 @@ trait HasPresets
      *
      * @return Collection
      */
-    public function prepare(array $data)
+    public function prepare(array $data): Collection
     {
+        if (!property_exists($this, 'filters')) {
+            throw new RuntimeException('Resource class does not use `HasFilters` trait');
+        }
+
         return collect($data)->filter(function ($value, $key) {
-            /** @var FilterCollection $this ->filter */
             if ($this->filters->has($key)) {
                 return [$key => $value];
             }

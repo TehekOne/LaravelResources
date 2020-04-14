@@ -15,8 +15,7 @@ use TehekOne\Laravel\Resources\Filters\FilterCollection;
 abstract class Resource
 {
     use \TehekOne\Laravel\Resources\Concerns\HasFilters,
-        \TehekOne\Laravel\Resources\Concerns\HasPresets,
-        \TehekOne\Laravel\Resources\Concerns\HasWidgets;
+        \TehekOne\Laravel\Resources\Concerns\HasPresets;
 
     /**
      * The model the resource corresponds to.

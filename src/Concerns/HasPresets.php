@@ -18,9 +18,9 @@ trait HasPresets
      *
      * @param null $userId
      *
-     * @return array
+     * @return Collection
      */
-    public function presets($userId = null): array
+    public function presets($userId = null)
     {
         $query = Preset::query()
             ->where('resource', static::class)
@@ -48,7 +48,7 @@ trait HasPresets
      *
      * @return Collection
      */
-    public function prepare(array $data): Collection
+    public function prepare(array $data)
     {
         if (!property_exists($this, 'filters')) {
             throw new RuntimeException('Resource class does not use `HasFilters` trait');
